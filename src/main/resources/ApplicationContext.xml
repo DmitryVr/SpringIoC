@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns:context="http://www.springframework.org/schema/context"
+       xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="
+       http://www.springframework.org/schema/context
+       http://www.springframework.org/schema/context/spring-context.xsd
+
+       http://www.springframework.org/schema/beans
+       http://www.springframework.org/schema/beans/spring-beans.xsd"
+
+       default-lazy-init="true"
+>
+    <!--<context:annotation-config/>-->
+
+    <!--default-init-method=""-->
+    <!--default-destroy-method=""-->
+    <!--default-lazy-init="true"-->
+
+    <bean id="t1000" class="com.robot.ModelT1000" scope="singleton"
+    init-method="initObject"
+    destroy-method="destroyObject"
+    lazy-init="true"> <!--init и destroy; ленивая инициализация, бин создается только при getBean()-->
+        <!--конструктор-->
+        <constructor-arg ref="sonyHand"/>
+        <constructor-arg ref="sonyHead"/>
+        <constructor-arg ref="sonyLeg"/>
+
+        <!--сеттеры-->
+        <property name="head" ref="samsungHead"/>
+        <property name="year" value="2010"/>
+    </bean>
+
+    <bean id="sonyHand" class="com.sony.SonyHand"/>
+    <bean id="sonyHead" class="com.sony.SonyHead"/>
+    <bean id="sonyLeg" class="com.sony.SonyLeg"/>
+
+    <bean id="samsungHand" class="com.samsung.SamsungHand"/>
+    <bean id="samsungHead" class="com.samsung.SamsungHead"/>
+    <bean id="samsungLeg" class="com.samsung.SamsungLeg"/>
+
+
+    <!--BeanPostProcessor для всех бинов; до инициализации и после-->
+    <bean class="com.initDestroy.MyBeanPostProcessor"/>
+</beans>
